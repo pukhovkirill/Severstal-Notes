@@ -1,0 +1,13 @@
+package com.pukhovkirill.severstalnotes;
+
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+
+@SpringBootApplication
+public class SeverstalNotesApplication {
+
+    public static void main(String[] args) {
+        SpringApplication.run(SeverstalNotesApplication.class, args);
+    }
+
+}
