@@ -17,6 +17,6 @@ public class Image {
     private String url;
 
     @ManyToOne
-    @Column(name = "place", nullable = false)
+    @JoinColumn(name = "node_id", nullable = false)
     private Note place;
 }

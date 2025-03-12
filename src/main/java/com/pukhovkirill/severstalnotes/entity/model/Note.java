@@ -26,7 +26,7 @@ public class Note {
     private Timestamp createdAt;
 
     @ManyToOne
-    @Column(name = "owner_id", nullable = false)
+    @JoinColumn(name = "owner_id", nullable = false)
     private User owner;
 
     @OneToMany(
