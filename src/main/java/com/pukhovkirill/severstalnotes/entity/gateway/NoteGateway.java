@@ -12,6 +12,7 @@ public interface NoteGateway {
     Note update(Note note) throws NoteNotFoundException;
     void delete(Long noteId) throws NoteNotFoundException;
 
+    Optional<Note> findById(Long noteId);
     Optional<Note> findByTitle(String title) throws NoteNotFoundException;
 
     List<Note> findAll();

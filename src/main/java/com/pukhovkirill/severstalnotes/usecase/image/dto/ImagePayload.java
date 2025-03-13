@@ -4,6 +4,8 @@ import com.pukhovkirill.severstalnotes.entity.model.Note;
 
 public interface ImagePayload {
 
+    Long getId();
+
     Note getPlace();
 
     String getUrl();

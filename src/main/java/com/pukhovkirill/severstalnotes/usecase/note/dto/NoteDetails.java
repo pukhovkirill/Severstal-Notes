@@ -7,6 +7,8 @@ import com.pukhovkirill.severstalnotes.usecase.image.dto.ImagePayload;
 
 public interface NoteDetails {
 
+    Long getId();
+
     User getOwner();
 
     String getTitle();
