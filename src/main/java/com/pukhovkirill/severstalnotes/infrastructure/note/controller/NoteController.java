@@ -1,5 +1,7 @@
 package com.pukhovkirill.severstalnotes.infrastructure.note.controller;
 
+import com.pukhovkirill.severstalnotes.infrastructure.note.service.NoteStorageService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,36 +19,37 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 @Controller
+@RequiredArgsConstructor
 public class NoteController {
 
+    private final NoteStorageService noteStorageService;
+
     @GetMapping("/create")
-    public String createNote(){
+    public String createNote(Model model){
+        model.addAttribute("title", "Create note");
         return "edit";
     }
 
     @PostMapping("/save")
     public String saveNote(@RequestParam String htmlText, Model model) {
         try {
-            // Обрабатываем текст и заменяем Base64-изображения на файлы
             String updatedHtml = processBase64Images(htmlText);
 
-            // Здесь можно сохранить updatedHtml в БД
-            System.out.println("Сохранённый HTML: " + updatedHtml);
-
-            model.addAttribute("message", "Текст сохранён!");
         } catch (Exception e) {
-            model.addAttribute("message", "Ошибка при сохранении.");
+
         }
         return "home";
     }
 
     @GetMapping("/note")
     public String getNoteDetails(@RequestParam("id") Long nodeId, Model model){
+
         return "note";
     }
 
     @PostMapping("/update")
     public String updateNote(@RequestParam String htmlText, Model model) {
+        model.addAttribute("title", "Edit note");
         return "redirect:/note?id=";
     }
 

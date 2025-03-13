@@ -3,10 +3,90 @@
 <head>
     <meta charset="UTF-8">
     <title>Home</title>
-    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" th:href="@{css/bootstrap.css}">
-    <script src="/static/js/bootstrap.js" type="text/javascript" th:src="@{js/bootstrap.js}"></script>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="/static/js/bootstrap.bundle.js" type="text/javascript" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <script src="/static/js/storage-download.js" type="text/javascript" th:src="@{/js/storage-download.js}"></script>
+    <script src="/static/js/share-item.js" type="text/javascript" th:src="@{/js/share-item.js}"></script>
+    <style>
+        .long-text {
+            padding: 5px;
+            height: 90%;
+
+            overflow: hidden;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 7;
+
+            white-space: normal;
+            text-overflow: ellipsis;
+        }
+
+    </style>
 </head>
 <body>
+    <header class="p-3 mb-3">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
 
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                    <span class="fs-5 ms-2">Severstal-Notes</span>
+                </a>
+
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/static/img/user-avatar.svg" th:src="@{/img/user-avatar.svg}" alt="account" width="35" height="35" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item btn" th:href="@{/register}">Remove account</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item btn btn-danger" th:href="@{/logout}">Sign out</a></li>
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </header>
+
+    <div class="container bg-body-tertiary rounded-4" style="height: 100vh;">
+        <div class="row">
+            <main class="px-md-4 mt-2">
+                <div class="mt-2" style="margin-bottom: 30px">
+                    <h4 class="text-center">Welcome to Severstal-Notes</h4>
+                </div>
+                <div class="container">
+
+                    <div class="row row-cols-sm-1 row-cols-md-1 row-cols-lg-2 g-3">
+                        <div class="col-lg-4 " th:each="note: ${notes}">
+                            <div class="card d-flex shadow-sm" style="border-radius: 20px">
+                                <div class="card-body bg-secondary text-white" style="border-radius: 20px">
+                                    <div class="float-end">
+                                        <form th:action="@{/delete}" th:method="post">
+                                            <input name="nodeId" th:value="${note.getId()}" type="hidden">
+                                            <button aria-expanded="false" class="btn btn-sm border-2" type="submit">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="black" class="bi bi-x-lg" viewBox="0 0 16 16">
+                                                    <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8z"/>
+                                                </svg>
+                                            </button>
+                                        </form>
+                                    </div>
+                                    <p class="fs-3" th:text="${note.getTitle()}">Title</p>
+                                    <div class="d-flex" style="height: 240px">
+                                        <p class="fs-5 long-text" th:text="${note.getContent()}"></p>
+                                    </div>
+                                    <form th:action="@{/note}" th:method="get">
+                                        <input name="nodeId" th:value="${note.getId()}" type="hidden">
+                                        <input class="btn btn-dark" role="button" type="submit" value="View"/>
+                                    </form>
+                                    <p class="mt-3 mb-0 text-light text-opacity-50" th:text="'Created at:'${#dates.format(note.getCreateAt(), 'MM dd M HH:mm')}">Created at: </p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
 </body>
 </html>

@@ -86,7 +86,7 @@ public class NoteStorageServiceImpl implements NoteStorageService {
     public List<NoteDetails> getAllNotes() {
         try{
             var getAllNotesUseCase = (GetAllNotesUseCase) beanFactory.getBean(
-                    "getNoteUseCase",
+                    "getAllNotesUseCase",
                     GetAllNotesUseCase.class
             );
 
