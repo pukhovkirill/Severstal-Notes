@@ -1,0 +1,45 @@
+package com.pukhovkirill.severstalnotes.usecase.note;
+
+import java.util.Arrays;
+
+import lombok.RequiredArgsConstructor;
+
+import com.pukhovkirill.severstalnotes.entity.model.Note;
+import com.pukhovkirill.severstalnotes.entity.gateway.NoteGateway;
+import com.pukhovkirill.severstalnotes.usecase.UseCase;
+import com.pukhovkirill.severstalnotes.usecase.note.dto.NoteDetails;
+import com.pukhovkirill.severstalnotes.entity.exception.note.NoteNotFoundException;
+import com.pukhovkirill.severstalnotes.usecase.image.DeleteImageUseCase;
+
+@RequiredArgsConstructor
+public class DeleteNoteUseCase implements UseCase<NoteDetails, NoteDetails> {
+
+    private final NoteGateway noteGateway;
+    private final DeleteImageUseCase deleteImageUseCase;
+
+    @Override
+    public NoteDetails execute(NoteDetails... args) {
+        if(args.length == 0)
+            return null;
+
+        Note note;
+
+        int idx = 0;
+        try{
+            for(; idx < args.length; idx++){
+                var nt = args[idx];
+
+                note = noteGateway.findByTitle(nt.getTitle())
+                        .orElseThrow(() -> new NoteNotFoundException(nt.getTitle()));
+
+                deleteImageUseCase.execute(nt.getImages());
+                noteGateway.delete(note.getId());
+            }
+        }catch(NoteNotFoundException e){
+            var subarray = Arrays.copyOfRange(args, idx+1, args.length);
+            return execute(subarray);
+        }
+
+        return args[args.length-1];
+    }
+}
