@@ -6,7 +6,7 @@ import com.pukhovkirill.severstalnotes.entity.dto.ImageResource;
 
 public interface ImageStorageGateway {
     Optional<ImageResource> findByUrl(String url);
-    void save(ImageResource entity);
+    void save(ImageResource resource);
     boolean existsByUrl(String url);
-    void delete(ImageResource entity);
+    void delete(ImageResource resource);
 }

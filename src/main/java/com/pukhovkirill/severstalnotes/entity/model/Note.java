@@ -36,4 +36,12 @@ public class Note {
             fetch = FetchType.LAZY
     )
     private List<Image> images;
+
+    public void addImage(Image... images){
+        for(Image image : images){
+            image.setPlace(this);
+            this.images.add(image);
+        }
+    }
+
 }

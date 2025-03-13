@@ -32,4 +32,11 @@ public class User {
     )
     private List<Note> notes;
 
+    public void addNote(Note... notes){
+        for (Note note : notes){
+            note.setOwner(this);
+            this.notes.add(note);
+        }
+    }
+
 }
