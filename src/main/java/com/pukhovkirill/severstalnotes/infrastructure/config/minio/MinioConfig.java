@@ -2,8 +2,6 @@ package com.pukhovkirill.severstalnotes.infrastructure.config.minio;
 
 import java.util.concurrent.TimeUnit;
 
-import com.pukhovkirill.severstalnotes.entity.gateway.ImageStorageGateway;
-import com.pukhovkirill.severstalnotes.infrastructure.imageResource.gateway.MinioStorageGateway;
 import io.minio.MinioClient;
 import okhttp3.ConnectionPool;
 import okhttp3.OkHttpClient;
@@ -11,6 +9,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
+
+import com.pukhovkirill.severstalnotes.entity.gateway.ImageStorageGateway;
+import com.pukhovkirill.severstalnotes.infrastructure.imageResource.gateway.MinioStorageGateway;
 
 @Configuration
 public class MinioConfig {

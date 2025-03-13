@@ -12,15 +12,11 @@ import io.minio.RemoveObjectArgs;
 import io.minio.StatObjectArgs;
 import io.minio.errors.MinioException;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Scope;
-import org.springframework.stereotype.Service;
 
 import com.pukhovkirill.severstalnotes.entity.dto.ImageResource;
 import com.pukhovkirill.severstalnotes.entity.gateway.ImageStorageGateway;
 import com.pukhovkirill.severstalnotes.entity.exception.imageResource.ImageResourceAlreadyExistsException;
 
-@Service
-@Scope("prototype")
 public class MinioStorageGateway implements ImageStorageGateway {
 
     @Value("${minio.default-bucket-name}")
