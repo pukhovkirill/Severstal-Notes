@@ -1,6 +1,7 @@
 package com.pukhovkirill.severstalnotes.usecase.image;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
@@ -18,18 +19,26 @@ public class GetImageUseCase implements UseCase<List<ImageResource>, ImagePayloa
 
     @Override
     public List<ImageResource> execute(ImagePayload... args) {
-        if(args.length == 0)
-            return null;
-
         final List<ImageResource> images;
 
         images = new ArrayList<>();
-        ImageResource resource;
-        for(var img : args){
-            resource = imageStorageGateway.findByUrl(img.getUrl())
-                    .orElseThrow(() -> new ImageResourceNotFoundException(img.getUrl()));
+        if(args.length == 0)
+            return images;
 
-            images.add(resource);
+        ImageResource resource;
+
+        int idx = 0;
+        try{
+            for(; idx < args.length; idx++){
+                var img = args[idx];
+                resource = imageStorageGateway.findByUrl(img.getUrl())
+                        .orElseThrow(() -> new ImageResourceNotFoundException(img.getUrl()));
+
+                images.add(resource);
+            }
+        }catch(ImageResourceNotFoundException e){
+            var subarray = Arrays.copyOfRange(args, idx+1, args.length);
+            images.addAll(execute(subarray));
         }
 
         return images;
