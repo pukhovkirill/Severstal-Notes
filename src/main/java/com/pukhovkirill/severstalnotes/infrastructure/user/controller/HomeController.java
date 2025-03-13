@@ -4,13 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import com.pukhovkirill.severstalnotes.infrastructure.user.service.UserService;
+import com.pukhovkirill.severstalnotes.infrastructure.user.service.AuthorizedService;
 
 @Controller
 @RequiredArgsConstructor
 public class HomeController {
 
-    private final UserService userService;
+    private final AuthorizedService authService;
 
     @GetMapping("/")
     public String welcome(){
@@ -19,8 +19,13 @@ public class HomeController {
         return "welcome";
     }
 
+    @GetMapping("/home")
+    public String home(){
+        return "home";
+    }
+
     private boolean isAuthenticated() {
-        return userService.isAuthenticated();
+        return authService.isAuthenticated();
     }
 
 }

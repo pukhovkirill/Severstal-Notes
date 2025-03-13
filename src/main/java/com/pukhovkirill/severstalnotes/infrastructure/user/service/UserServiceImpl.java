@@ -4,15 +4,11 @@ import java.util.List;
 import java.util.Optional;
 
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.pukhovkirill.severstalnotes.infrastructure.user.dto.UserCredentials;
 import com.pukhovkirill.severstalnotes.entity.gateway.UserGateway;
-import com.pukhovkirill.severstalnotes.entity.exception.user.UserNotFoundException;
 import com.pukhovkirill.severstalnotes.entity.model.User;
 
 @Service
@@ -20,40 +16,39 @@ import com.pukhovkirill.severstalnotes.entity.model.User;
 public class UserServiceImpl implements UserService {
 
     private final UserGateway userGateway;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userGateway.findByEmail(email).orElseThrow(
-                () -> new UserNotFoundException(email, new UsernameNotFoundException(String.format("User '%s' not found", email)))
-        );
-
-        return new org.springframework.security.core.userdetails.User(
-                user.getName(),
-                user.getPassword(),
-                List.of(new SimpleGrantedAuthority("USER"))
-        );
+    public User create(UserCredentials credentials) {
+        var user = new User();
+        user.setEmail(credentials.getEmail());
+        user.setName(credentials.getName());
+        user.setPassword(passwordEncoder.encode(credentials.getPassword()));
+        return userGateway.create(user);
     }
 
     @Override
-    public Optional<User> findPerson() {
-        var details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        if(details instanceof UserDetails user)
-            return Optional.of(
-                    userGateway.findByEmail(
-                            user.getUsername()
-                    ).get()
-            );
-
-        return Optional.empty();
+    public User update(UserCredentials credentials) {
+        var user = new User();
+        user.setEmail(credentials.getEmail());
+        user.setName(credentials.getName());
+        user.setPassword(passwordEncoder.encode(credentials.getPassword()));
+        return userGateway.update(user);
     }
 
     @Override
-    public boolean isAuthenticated() {
-        var authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication == null || AnonymousAuthenticationToken.class.
-                isAssignableFrom(authentication.getClass())) {
-            return false;
-        }
-        return authentication.isAuthenticated();
+    public void delete(UserCredentials credentials) {
+        var user = userGateway.findByEmail(credentials.getEmail());
+        userGateway.delete(user.get().getId());
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return userGateway.findByEmail(email);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userGateway.findAll();
     }
 }

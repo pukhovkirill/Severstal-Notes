@@ -1,8 +1,6 @@
 package com.pukhovkirill.severstalnotes.infrastructure.user.dto;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.AllArgsConstructor;
+import lombok.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 
@@ -11,8 +9,10 @@ import com.pukhovkirill.severstalnotes.infrastructure.user.validation.email.Vali
 import com.pukhovkirill.severstalnotes.infrastructure.user.validation.password.ValidPassword;
 
 @Getter
+@Setter
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 public class UserCredentials{
 
     @NotBlank

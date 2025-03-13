@@ -10,11 +10,12 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.SecurityFilterChain;
 
-import com.pukhovkirill.severstalnotes.infrastructure.user.service.UserService;
+import com.pukhovkirill.severstalnotes.infrastructure.user.service.AuthorizedService;
 
 @Configuration
 @EnableWebSecurity
@@ -22,16 +23,19 @@ import com.pukhovkirill.severstalnotes.infrastructure.user.service.UserService;
 @RequiredArgsConstructor
 public class SecurityConfig {
 
-    private final UserService userService;
+    private final AuthorizedService authorizedService;
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults())
-                .authorizeHttpRequests(authorize -> authorize
+                .sessionManagement(httpSecuritySessionManagementConfigurer ->
+                        httpSecuritySessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                ).authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/").permitAll()
-                        .requestMatchers("/registration").permitAll()
+                        .requestMatchers("/css/**","/js/**","/img/**").permitAll()
                         .requestMatchers(new AntPathRequestMatcher("/error")).permitAll()
+                        .requestMatchers("/registration").anonymous()
                         .anyRequest().authenticated()
                 ).formLogin(formLogin -> formLogin
                         .loginPage("/login")
@@ -52,7 +56,7 @@ public class SecurityConfig {
     public DaoAuthenticationProvider daoAuthenticationProvider(){
         var daoAuthProvider = new DaoAuthenticationProvider();
         daoAuthProvider.setPasswordEncoder(passwordEncoder());
-        daoAuthProvider.setUserDetailsService(userService);
+        daoAuthProvider.setUserDetailsService(authorizedService);
         return daoAuthProvider;
     }
 
