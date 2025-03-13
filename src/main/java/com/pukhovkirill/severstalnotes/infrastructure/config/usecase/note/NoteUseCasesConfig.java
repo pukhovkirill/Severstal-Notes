@@ -26,7 +26,7 @@ public class NoteUseCasesConfig {
 
     @Bean
     @Scope("prototype")
-    public DeleteNoteUseCase deleteImageUseCase(
+    public DeleteNoteUseCase deleteNoteUseCase(
             NoteGateway noteGateway,
             DeleteImageUseCase deleteImageUseCase
     ) {

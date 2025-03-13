@@ -1,9 +1,12 @@
 package com.pukhovkirill.severstalnotes.infrastructure.user.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import lombok.AllArgsConstructor;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
@@ -29,5 +32,28 @@ public class UserServiceImpl implements UserService {
                 user.getPassword(),
                 List.of(new SimpleGrantedAuthority("USER"))
         );
+    }
+
+    @Override
+    public Optional<User> findPerson() {
+        var details = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if(details instanceof UserDetails user)
+            return Optional.of(
+                    userGateway.findByEmail(
+                            user.getUsername()
+                    ).get()
+            );
+
+        return Optional.empty();
+    }
+
+    @Override
+    public boolean isAuthenticated() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null || AnonymousAuthenticationToken.class.
+                isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return authentication.isAuthenticated();
     }
 }
