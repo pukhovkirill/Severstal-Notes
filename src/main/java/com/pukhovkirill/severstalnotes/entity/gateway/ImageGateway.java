@@ -8,8 +8,8 @@ import com.pukhovkirill.severstalnotes.entity.exception.image.ImageNotFoundExcep
 import com.pukhovkirill.severstalnotes.entity.model.Image;
 
 public interface ImageGateway {
-    void create(Image image) throws ImageAlreadyExistsException;
-    void update(Image image) throws ImageNotFoundException;
+    Image create(Image image) throws ImageAlreadyExistsException;
+    Image update(Image image) throws ImageNotFoundException;
     void delete(Long imageId) throws ImageNotFoundException;
 
     Optional<Image> findByUrl(String url) throws ImageNotFoundException;

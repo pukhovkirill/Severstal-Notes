@@ -8,8 +8,8 @@ import com.pukhovkirill.severstalnotes.entity.exception.note.NoteNotFoundExcepti
 import com.pukhovkirill.severstalnotes.entity.model.Note;
 
 public interface NoteGateway {
-    void create(Note note) throws NoteAlreadyExistsException;
-    void update(Note note) throws NoteNotFoundException;
+    Note create(Note note) throws NoteAlreadyExistsException;
+    Note update(Note note) throws NoteNotFoundException;
     void delete(Long noteId) throws NoteNotFoundException;
 
     Optional<Note> findByTitle(String title) throws NoteNotFoundException;

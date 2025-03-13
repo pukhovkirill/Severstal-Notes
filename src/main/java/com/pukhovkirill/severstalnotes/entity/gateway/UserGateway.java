@@ -8,8 +8,8 @@ import com.pukhovkirill.severstalnotes.entity.exception.user.UserNotFoundExcepti
 import com.pukhovkirill.severstalnotes.entity.model.User;
 
 public interface UserGateway {
-    void create(User user) throws UserAlreadyExistsException;
-    void update(User user) throws UserNotFoundException;
+    User create(User user) throws UserAlreadyExistsException;
+    User update(User user) throws UserNotFoundException;
     void delete(Long userId) throws UserNotFoundException;
 
     Optional<User> findByEmail(String email) throws UserNotFoundException;
