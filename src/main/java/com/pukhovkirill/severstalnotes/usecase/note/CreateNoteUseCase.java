@@ -11,7 +11,6 @@ import com.pukhovkirill.severstalnotes.entity.gateway.NoteGateway;
 import com.pukhovkirill.severstalnotes.usecase.UseCase;
 import com.pukhovkirill.severstalnotes.usecase.note.dto.NoteDetails;
 import com.pukhovkirill.severstalnotes.usecase.image.UploadImageUseCase;
-import com.pukhovkirill.severstalnotes.entity.model.Image;
 import com.pukhovkirill.severstalnotes.entity.exception.note.NoteAlreadyExistsException;
 
 @RequiredArgsConstructor
@@ -41,9 +40,7 @@ public class CreateNoteUseCase implements UseCase<List<Note>, NoteDetails> {
                 note.setCreatedAt(nt.getCreateAt());
                 note.setOwner(nt.getOwner());
 
-                List<Image> images = uploadImageUseCase.execute(nt.getImages());
-                note.addImage(images.toArray(new Image[0]));
-
+                uploadImageUseCase.execute(nt.getImages());
                 noteGateway.create(note);
 
                 notes.add(note);

@@ -8,7 +8,11 @@ import lombok.Getter;
 @Builder
 @AllArgsConstructor
 public class ImageResource {
+
     private String url;
+
     private String name;
+
     private byte[] data;
+
 }

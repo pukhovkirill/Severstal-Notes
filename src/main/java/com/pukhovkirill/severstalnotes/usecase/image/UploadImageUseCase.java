@@ -6,43 +6,32 @@ import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
-import com.pukhovkirill.severstalnotes.entity.model.Image;
-import com.pukhovkirill.severstalnotes.entity.gateway.ImageGateway;
-import com.pukhovkirill.severstalnotes.entity.gateway.ImageStorageGateway;
+
 import com.pukhovkirill.severstalnotes.usecase.UseCase;
+import com.pukhovkirill.severstalnotes.entity.gateway.ImageStorageGateway;
 import com.pukhovkirill.severstalnotes.usecase.image.dto.ImagePayload;
 import com.pukhovkirill.severstalnotes.entity.dto.ImageResource;
-import com.pukhovkirill.severstalnotes.entity.exception.image.ImageAlreadyExistsException;
 import com.pukhovkirill.severstalnotes.entity.exception.imageResource.ImageResourceAlreadyExistsException;
 
 @RequiredArgsConstructor
-public class UploadImageUseCase implements UseCase<List<Image>, ImagePayload> {
+public class UploadImageUseCase implements UseCase<List<ImageResource>, ImagePayload> {
 
-    public final ImageGateway imageGateway;
     public final ImageStorageGateway imageStorageGateway;
 
     @Override
-    public List<Image> execute(ImagePayload... args) {
-        final List<Image> images;
+    public List<ImageResource> execute(ImagePayload... args) {
+        final List<ImageResource> images;
 
         images = new ArrayList<>();
         if(args.length == 0)
             return images;
 
-        Image image;
         ImageResource resource;
 
         int idx = 0;
         try{
             for(; idx < args.length; idx++){
                 var img = args[idx];
-
-                image = new Image();
-                image.setUrl(img.getUrl());
-                image.setPlace(image.getPlace());
-
-                image = imageGateway.create(image);
-                images.add(image);
 
                 resource = ImageResource.builder()
                         .url(img.getUrl())
@@ -52,7 +41,7 @@ public class UploadImageUseCase implements UseCase<List<Image>, ImagePayload> {
 
                 imageStorageGateway.save(resource);
             }
-        }catch(ImageAlreadyExistsException | ImageResourceAlreadyExistsException e){
+        }catch(ImageResourceAlreadyExistsException e){
             var subarray = Arrays.copyOfRange(args, idx+1, args.length);
             images.addAll(execute());
         }

@@ -1,7 +1,6 @@
 package com.pukhovkirill.severstalnotes.usecase.note;
 
 import java.sql.Timestamp;
-import java.util.List;
 
 import lombok.RequiredArgsConstructor;
 
@@ -9,7 +8,6 @@ import com.pukhovkirill.severstalnotes.entity.model.Note;
 import com.pukhovkirill.severstalnotes.entity.gateway.NoteGateway;
 import com.pukhovkirill.severstalnotes.usecase.UseCase;
 import com.pukhovkirill.severstalnotes.usecase.note.dto.NoteDetails;
-import com.pukhovkirill.severstalnotes.entity.model.Image;
 import com.pukhovkirill.severstalnotes.usecase.image.UploadImageUseCase;
 import com.pukhovkirill.severstalnotes.entity.exception.note.NoteNotFoundException;
 
@@ -32,9 +30,7 @@ public class UpdateNoteUseCase implements UseCase<Note, NoteDetails> {
                 .orElseThrow(() -> new NoteNotFoundException(args[0].getTitle()));
 
         if(doChanges(note, nt)){
-            List<Image> images = uploadImageUseCase.execute(nt.getImages());
-            note.addImage(images.toArray(new Image[0]));
-
+            uploadImageUseCase.execute(nt.getImages());
             noteGateway.update(note);
         }
 
