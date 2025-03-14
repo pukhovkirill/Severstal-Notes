@@ -45,3 +45,8 @@ $ cd Severstal-Notes
 $ chmod +x generate_env.sh && ./generate_env.sh
 $ sudo docker-compose up
 ```
+
+Лицензия
+=====================
+Copyright (c) 2025 Kirill Pukhov\
+Распространяется по лицензии MIT License. Подробнее см. файл LICENSE.
