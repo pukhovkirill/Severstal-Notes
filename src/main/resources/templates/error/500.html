@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>500 error</title>
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
+    <script src="/js/bootstrap.bundle.js" type="text/javascript" th:src="@{/js/bootstrap.bundle.js}"></script>
+    <style>
+        span{
+            font-size: 11em;
+            font-weight: 700;
+            line-height: 1.2em;
+
+            display: block;
+
+            -webkit-transition: all .4s;
+            transition: all .4s;
+            text-align: center;
+
+            color: #e0e0e0;
+        }
+    </style>
+</head>
+<body class="container bg-dark text-white">
+
+<div class="text-secondary px-4 py-5 text-center">
+    <div class="py-5 mt-5">
+        <div>
+            <span>500</span>
+        </div>
+        <div class="col-lg-6 mx-auto">
+            <p class="fs-5 mb-4 text-danger">Opps! Internal Server Error!</p>
+            <p class="fs-5 mb-4">Unfortunately we're having trouble loading the page you are looking for. Please come back in a while.</p>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

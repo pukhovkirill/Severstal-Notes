@@ -2,46 +2,67 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Note</title>
+    <title th:text="${noteTitle}"></title>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/static/js/bootstrap.bundle.js" type="text/javascript" th:src="@{/js/bootstrap.bundle.js}"></script>
-    <script src="/static/js/storage-download.js" type="text/javascript" th:src="@{/js/storage-download.js}"></script>
-    <script src="/static/js/share-item.js" type="text/javascript" th:src="@{/js/share-item.js}"></script>
+    <style>
+        .floating-button {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #292b2c;
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            font-size: 16px;
+            font-family: Arial, sans-serif;
+            display: inline-block;
+            transition: background 0.3s ease, transform 0.2s ease;
+        }
+
+        .floating-button:hover {
+            background-color: #292b2c;
+            transform: scale(1.1);
+        }
+    </style>
 </head>
 <body>
-<header class="p-3 mb-3">
-    <div class="container">
-        <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
-            <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
-                <span class="fs-5 ms-2">Severstal-Notes</span>
-            </a>
-
-            <div class="dropdown text-end">
-                <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                    <img src="/static/img/user-avatar.svg" th:src="@{/img/user-avatar.svg}" alt="account" width="35" height="35" class="rounded-circle">
+    <header class="p-3 mb-3">
+        <div class="container">
+            <div class="d-flex flex-wrap align-items-center justify-content-center justify-content-lg-start">
+                <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+                    <span class="fs-5 ms-2">Severstal-Notes</span>
                 </a>
-                <ul class="dropdown-menu text-small">
-                    <li><a class="dropdown-item btn" th:href="@{/register}">Remove account</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item btn btn-danger" th:href="@{/logout}">Sign out</a></li>
-                </ul>
+
+                <div class="dropdown text-end">
+                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                        <img src="/static/img/user-avatar.svg" th:src="@{/img/user-avatar.svg}" alt="account" width="35" height="35" class="rounded-circle">
+                    </a>
+                    <ul class="dropdown-menu text-small">
+                        <li><a class="dropdown-item btn" th:href="@{/removeAccount}">Remove account</a></li>
+                        <li><hr class="dropdown-divider"></li>
+                        <li><a class="dropdown-item btn btn-danger" th:href="@{/logout}">Sign out</a></li>
+                    </ul>
+                </div>
             </div>
         </div>
+    </header>
+
+    <div class="container bg-body-tertiary rounded-4" style="height: 100vh;">
+        <div class="row">
+            <main class="px-md-4 mt-2">
+                <div class="mt-2" style="margin-bottom: 15px">
+                    <h4 class="text-center" th:text="${noteTitle}">Title</h4>
+                </div>
+
+                <p th:utext="${noteContent}"></p>
+
+            </main>
+        </div>
     </div>
-</header>
 
-<div class="container bg-body-tertiary rounded-4" style="height: 100vh;">
-    <div class="row">
-        <main class="px-md-4 mt-2">
-            <div class="mt-2" style="margin-bottom: 15px">
-                <h4 class="text-center">Title</h4>
-            </div>
-
-            <p th:utext="${formattedText}"></p>
-
-        </main>
-    </div>
-</div>
+    <a th:href="@{'/edit?id='+${noteId}}" class="floating-button" type="button">Edit note</a>
 </body>
 </html>

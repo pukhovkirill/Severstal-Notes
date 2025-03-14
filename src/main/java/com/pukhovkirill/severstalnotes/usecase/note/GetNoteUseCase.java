@@ -32,8 +32,8 @@ public class GetNoteUseCase implements UseCase<List<Note>, NoteDetails> {
             for(; idx < args.length; idx++){
                 var nt = args[idx];
 
-                note = noteGateway.findByTitle(nt.getTitle())
-                        .orElseThrow(() -> new NoteNotFoundException(nt.getTitle()));
+                note = noteGateway.findById(nt.getId())
+                        .orElseThrow(() -> new NoteNotFoundException(nt.getId().toString()));
                 notes.add(note);
             }
         }catch(NoteNotFoundException e){

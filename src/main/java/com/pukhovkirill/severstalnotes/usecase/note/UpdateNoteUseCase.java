@@ -8,14 +8,12 @@ import com.pukhovkirill.severstalnotes.entity.model.Note;
 import com.pukhovkirill.severstalnotes.entity.gateway.NoteGateway;
 import com.pukhovkirill.severstalnotes.usecase.UseCase;
 import com.pukhovkirill.severstalnotes.usecase.note.dto.NoteDetails;
-import com.pukhovkirill.severstalnotes.usecase.image.UploadImageUseCase;
 import com.pukhovkirill.severstalnotes.entity.exception.note.NoteNotFoundException;
 
 @RequiredArgsConstructor
 public class UpdateNoteUseCase implements UseCase<Note, NoteDetails> {
 
     private final NoteGateway noteGateway;
-    private final UploadImageUseCase uploadImageUseCase;
 
     @Override
     public Note execute(NoteDetails... args) {
@@ -30,7 +28,6 @@ public class UpdateNoteUseCase implements UseCase<Note, NoteDetails> {
                 .orElseThrow(() -> new NoteNotFoundException(args[0].getTitle()));
 
         if(doChanges(note, nt)){
-            uploadImageUseCase.execute(nt.getImages());
             noteGateway.update(note);
         }
 

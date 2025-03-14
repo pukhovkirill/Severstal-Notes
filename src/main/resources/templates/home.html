@@ -4,10 +4,7 @@
     <meta charset="UTF-8">
     <title>Home</title>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/static/js/bootstrap.bundle.js" type="text/javascript" th:src="@{/js/bootstrap.bundle.js}"></script>
-    <script src="/static/js/storage-download.js" type="text/javascript" th:src="@{/js/storage-download.js}"></script>
-    <script src="/static/js/share-item.js" type="text/javascript" th:src="@{/js/share-item.js}"></script>
     <style>
         .long-text {
             padding: 5px;
@@ -58,7 +55,7 @@
                         <img src="/static/img/user-avatar.svg" th:src="@{/img/user-avatar.svg}" alt="account" width="35" height="35" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item btn" th:href="@{/register}">Remove account</a></li>
+                        <li><a class="dropdown-item btn" th:href="@{/removeAccount}">Remove account</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item btn btn-danger" th:href="@{/logout}">Sign out</a></li>
                     </ul>
@@ -98,7 +95,7 @@
                                         <input name="id" th:value="${note.getId()}" type="hidden">
                                         <input class="btn btn-dark" role="button" type="submit" value="View"/>
                                     </form>
-                                    <p class="mt-3 mb-0 text-light text-opacity-50">Created at: </p> <!--th:text="'Created at:'${#dates.format(note.getCreateAt(), 'HH:mm')}"-->
+                                    <p class="mt-3 mb-0 text-light text-opacity-50" th:text="'Created at: '+${#dates.format(new java.util.Date(note.getCreateAt().getTime()), 'MMMM dd yyyy HH:mm')}">Created at: </p>
                                 </div>
                             </div>
                         </div>

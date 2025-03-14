@@ -2,12 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title th:title="${title}">Edit</title>
+    <title th:text="${title}">Edit</title>
     <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" th:href="@{/css/bootstrap.css}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="/static/js/bootstrap.bundle.js" type="text/javascript" th:src="@{/js/bootstrap.bundle.js}"></script>
-    <script src="/static/js/storage-download.js" type="text/javascript" th:src="@{/js/storage-download.js}"></script>
-    <script src="/static/js/share-item.js" type="text/javascript" th:src="@{/js/share-item.js}"></script>
     <script src="https://cdn.tiny.cloud/1/ti593kiljqe55rzwtrkr5i69fqyxjdpqve22kmb7k68agog3/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 </head>
 <body>
@@ -23,7 +21,7 @@
                         <img src="/static/img/user-avatar.svg" th:src="@{/img/user-avatar.svg}" alt="account" width="35" height="35" class="rounded-circle">
                     </a>
                     <ul class="dropdown-menu text-small">
-                        <li><a class="dropdown-item btn" th:href="@{/register}">Remove account</a></li>
+                        <li><a class="dropdown-item btn" th:href="@{/removeAccount}">Remove account</a></li>
                         <li><hr class="dropdown-divider"></li>
                         <li><a class="dropdown-item btn btn-danger" th:href="@{/logout}">Sign out</a></li>
                     </ul>
@@ -39,13 +37,14 @@
 
                 </div>
 
-                <form th:action="@{/save}" th:method="post">
+                <form th:action="@{'/'+${formAction}}" th:method="post">
                     <div class="col-3">
+                        <input name="noteId" type="hidden" th:value="${noteId}">
                         <label for="noteTitle" class="form-label">Title<span class="text-danger">*</span></label>
-                        <input name="noteTitle" type="text" class="form-control" id="noteTitle">
+                        <input name="noteTitle" type="text" class="form-control" id="noteTitle" th:value="${noteTitle}">
                         <br>
                     </div>
-                    <textarea style="height: 65vh;" id="editor" name="htmlText"></textarea>
+                    <textarea style="height: 65vh;" id="editor" name="htmlText" th:utext="${noteContent}"></textarea>
                     <input class="btn btn-dark mt-1" style="width: 95px" role="button" type="submit" value="Save"/>
                 </form>
 

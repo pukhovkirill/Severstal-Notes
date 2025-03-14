@@ -8,7 +8,6 @@ import lombok.Getter;
 
 import com.pukhovkirill.severstalnotes.entity.model.Note;
 import com.pukhovkirill.severstalnotes.entity.model.User;
-import com.pukhovkirill.severstalnotes.usecase.image.dto.ImagePayload;
 import com.pukhovkirill.severstalnotes.usecase.note.dto.NoteDetails;
 
 @Getter
@@ -25,8 +24,6 @@ public class NoteDetailsImpl implements NoteDetails {
     private String content;
 
     private Timestamp createAt;
-
-    private ImagePayload[] images;
 
     public NoteDetailsImpl(Note note){
         this.id = note.getId();

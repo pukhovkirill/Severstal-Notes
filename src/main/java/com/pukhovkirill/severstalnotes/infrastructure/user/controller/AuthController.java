@@ -8,15 +8,19 @@ import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
+import com.pukhovkirill.severstalnotes.entity.model.User;
 import com.pukhovkirill.severstalnotes.infrastructure.user.service.UserService;
 import com.pukhovkirill.severstalnotes.infrastructure.user.dto.UserCredentials;
+import com.pukhovkirill.severstalnotes.infrastructure.user.service.AuthorizedService;
 
 @Controller
 @RequiredArgsConstructor
 public class AuthController {
 
     private final UserService userService;
+    private final AuthorizedService authService;
 
     @GetMapping("/login")
     public String login(){
@@ -48,6 +52,18 @@ public class AuthController {
 
         userService.create(credentials);
         return "redirect:/login";
+    }
+
+    @GetMapping("/removeAccount")
+    public String removeAccount(){
+        var contextUser = authService.findUserInContext();
+        if(contextUser.isEmpty())
+            throw new UsernameNotFoundException("User not found in context");
+
+        User user = contextUser.get();
+        userService.delete(new UserCredentials(user));
+
+        return "redirect:/logout";
     }
 
 }

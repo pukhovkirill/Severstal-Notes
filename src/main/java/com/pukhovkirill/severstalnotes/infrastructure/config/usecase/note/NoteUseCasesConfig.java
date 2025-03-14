@@ -6,28 +6,20 @@ import org.springframework.context.annotation.Scope;
 
 import com.pukhovkirill.severstalnotes.usecase.note.*;
 import com.pukhovkirill.severstalnotes.entity.gateway.NoteGateway;
-import com.pukhovkirill.severstalnotes.usecase.image.DeleteImageUseCase;
-import com.pukhovkirill.severstalnotes.usecase.image.UploadImageUseCase;
 
 @Configuration
 public class NoteUseCasesConfig {
 
     @Bean
     @Scope("prototype")
-    public CreateNoteUseCase createNoteUseCase(
-            NoteGateway noteGateway,
-            UploadImageUseCase uploadImageUseCase
-    ) {
-        return new CreateNoteUseCase(noteGateway, uploadImageUseCase);
+    public CreateNoteUseCase createNoteUseCase(NoteGateway noteGateway) {
+        return new CreateNoteUseCase(noteGateway);
     }
 
     @Bean
     @Scope("prototype")
-    public DeleteNoteUseCase deleteNoteUseCase(
-            NoteGateway noteGateway,
-            DeleteImageUseCase deleteImageUseCase
-    ) {
-        return new DeleteNoteUseCase(noteGateway, deleteImageUseCase);
+    public DeleteNoteUseCase deleteNoteUseCase(NoteGateway noteGateway) {
+        return new DeleteNoteUseCase(noteGateway);
     }
 
     @Bean
@@ -44,10 +36,7 @@ public class NoteUseCasesConfig {
 
     @Bean
     @Scope("prototype")
-    public UpdateNoteUseCase updateNoteUseCase(
-            NoteGateway noteGateway,
-            UploadImageUseCase uploadImageUseCase
-    ) {
-        return new UpdateNoteUseCase(noteGateway, uploadImageUseCase);
+    public UpdateNoteUseCase updateNoteUseCase(NoteGateway noteGateway) {
+        return new UpdateNoteUseCase(noteGateway);
     }
 }

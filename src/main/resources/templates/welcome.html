@@ -1,10 +1,36 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Welcome</title>
+    <link rel="stylesheet" type="text/css" href="/static/css/bootstrap.css" th:href="@{css/bootstrap.css}">
+    <script src="/static/js/bootstrap.js" th:src="@{js/bootstrap.js}"></script>
 </head>
 <body>
-    <h1>Welcome</h1>
+<div class="container">
+    <header class="d-flex flex-wrap justify-content-center py-3 mb-4 border-bottom">
+        <a href="/" class="d-flex align-items-center mb-3 mb-md-0 me-md-auto link-body-emphasis text-decoration-none">
+            <span class="fs-5 ms-2">Severstal-Notes</span>
+        </a>
+
+        <ul class="nav nav-pills">
+            <li class="nav-item"><a th:href="@{/registration}" class="nav-link active" style="background-color: #292b2c">Registration</a></li>
+        </ul>
+    </header>
+</div>
+<div class="container col-xxl-8 px-4 py-5">
+    <div class="row flex-lg-row-reverse align-items-center g-5 py-5">
+        <div class="col-12 col-sm-12 col-lg-6">
+            <img src="/static/img/realistic_laptop_with_smartphone.jpg" th:src="@{/img/realistic_laptop_with_smartphone.jpg}" class="d-block mx-lg-auto img-fluid" alt="image" width="700" height="500">
+        </div>
+        <div class="col-lg-6">
+            <h1 class="display-5 fw-bold text-body-emphasis lh-1 mb-3">Easy and efficient access to your<br> notes</h1>
+            <p class="lead">Severstal-Notes is a simple web application for creating and managing notes. It allows users to write, edit, and store notes with style options like bold and italic.</p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+                <a th:href="@{/login}" type="button" class="btn btn-lg btn-dark px-4 me-md-2 text-white">Get started</a>
+            </div>
+        </div>
+    </div>
+</div>
 </body>
 </html>
