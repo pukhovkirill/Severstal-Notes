@@ -5,19 +5,26 @@ services:
     image: 'postgres:latest'
     container_name: 'severstal-notes-postgresql-database'
     ports:
-      - '${DATABASE_PORT}:5432'
+      - '${DATABASE_PORT}:${DATABASE_PORT}'
     volumes:
       - 'postgres_storage:/data'
     environment:
       - 'POSTGRES_DB=${DATABASE_NAME}'
       - 'POSTGRES_PASSWORD=${DATABASE_PASSWORD}'
       - 'POSTGRES_USER=${DATABASE_USER}'
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DATABASE_USER} -d ${DATABASE_NAME}"]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - shared_network
 
   minio:
     image: 'minio/minio:latest'
     container_name: 'severstal-images-storage-minio'
     ports:
-      - '${MINIO_PORT}:9000'
+      - '${MINIO_PORT}:${MINIO_PORT}'
     volumes:
       - 'minio_storage:/data'
     environment:
@@ -25,20 +32,49 @@ services:
       - 'MINIO_ROOT_PASSWORD=${MINIO_SECRET_KEY}'
       - 'MINIO_DEFAULT_BUCKETS=${MINIO_BUCKET}'
     command: server /data
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://minio:9000/minio/health/live"]
+      interval: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      - shared_network
 
   create-bucket:
     image: 'minio/minio:latest'
     depends_on:
-      - minio
+      minio:
+        condition: service_healthy
     entrypoint: >
       /bin/sh -c "
       sleep 10;
-      /usr/bin/mc alias set severstal-images-storage-minio http://minio:9000 ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY};
+      /usr/bin/mc alias set severstal-images-storage-minio http://minio:${MINIO_PORT} ${MINIO_ACCESS_KEY} ${MINIO_SECRET_KEY};
       /usr/bin/mc mb severstal-images-storage-minio/storage;
       /usr/bin/mc policy set public severstal-images-storage-minio/storage;
       exit 0;
       "
 
+  serverstal-notes:
+    build: .
+    env_file:
+      - .env
+    image: serverstal-notes
+    ports:
+      - "80:8080"
+    container_name: serverstal-notes
+    depends_on:
+      postgres:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+      create-bucket:
+        condition: service_completed_successfully
+    networks:
+      - shared_network
+
 volumes:
   postgres_storage: {}
   minio_storage: {}
+
+networks:
+  shared_network:
