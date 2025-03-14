@@ -23,7 +23,7 @@ public class UploadImageUseCase implements UseCase<List<ImageResource>, ImagePay
         final List<ImageResource> images;
 
         images = new ArrayList<>();
-        if(args.length == 0)
+        if(args == null || args.length == 0)
             return images;
 
         ImageResource resource;

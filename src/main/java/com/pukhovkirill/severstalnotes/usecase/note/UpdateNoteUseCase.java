@@ -19,7 +19,7 @@ public class UpdateNoteUseCase implements UseCase<Note, NoteDetails> {
 
     @Override
     public Note execute(NoteDetails... args) {
-        if(args.length != 1)
+        if(args == null || args.length != 1)
             return null;
 
         Note note;

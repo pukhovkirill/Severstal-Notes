@@ -19,7 +19,7 @@ public class DeleteNoteUseCase implements UseCase<NoteDetails, NoteDetails> {
 
     @Override
     public NoteDetails execute(NoteDetails... args) {
-        if(args.length == 0)
+        if(args == null || args.length == 0)
             return null;
 
         Note note;

@@ -15,7 +15,7 @@ public class DeleteImageUseCase implements UseCase<ImagePayload, ImagePayload> {
 
     @Override
     public ImagePayload execute(ImagePayload... args) {
-        if(args.length == 0)
+        if(args == null || args.length == 0)
             return null;
 
         ImageResource resource;

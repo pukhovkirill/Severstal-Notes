@@ -36,11 +36,16 @@
         <div class="row">
             <main class="px-md-4 mt-2">
                 <div class="mt-2" style="margin-bottom: 15px">
-                    <h4 class="text-center">Title</h4>
+
                 </div>
 
-                <form th:action="@{/save}" method="post">
-                    <textarea style="height: 75vh;" id="editor" name="htmlText"></textarea>
+                <form th:action="@{/save}" th:method="post">
+                    <div class="col-3">
+                        <label for="noteTitle" class="form-label">Title<span class="text-danger">*</span></label>
+                        <input name="noteTitle" type="text" class="form-control" id="noteTitle">
+                        <br>
+                    </div>
+                    <textarea style="height: 65vh;" id="editor" name="htmlText"></textarea>
                     <input class="btn btn-dark mt-1" style="width: 95px" role="button" type="submit" value="Save"/>
                 </form>
 

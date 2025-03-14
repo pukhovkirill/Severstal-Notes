@@ -22,7 +22,7 @@ public class GetImageUseCase implements UseCase<List<ImageResource>, ImagePayloa
         final List<ImageResource> images;
 
         images = new ArrayList<>();
-        if(args.length == 0)
+        if(args == null || args.length == 0)
             return images;
 
         ImageResource resource;

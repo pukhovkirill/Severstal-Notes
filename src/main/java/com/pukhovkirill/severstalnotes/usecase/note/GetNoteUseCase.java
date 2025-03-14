@@ -22,7 +22,7 @@ public class GetNoteUseCase implements UseCase<List<Note>, NoteDetails> {
         final List<Note> notes;
 
         notes = new ArrayList<>();
-        if(args.length == 0)
+        if(args == null || args.length == 0)
             return notes;
 
         Note note;

@@ -28,7 +28,7 @@ public class AuthorizedServiceImpl implements AuthorizedService {
         );
 
         return new org.springframework.security.core.userdetails.User(
-                user.getName(),
+                user.getEmail(),
                 user.getPassword(),
                 List.of(new SimpleGrantedAuthority("USER"))
         );

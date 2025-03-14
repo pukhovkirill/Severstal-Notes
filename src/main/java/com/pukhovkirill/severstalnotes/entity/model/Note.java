@@ -18,7 +18,7 @@ public class Note {
     @Column(name = "title", nullable = false, unique = true)
     private String title;
 
-    @Column(name = "content")
+    @Column(name = "content", columnDefinition = "TEXT")
     private String content;
 
     @Column(name = "create_at", nullable = false)
